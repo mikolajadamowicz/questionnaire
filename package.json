@@ -1,0 +1,19 @@
+{
+  "name": "questionnaire",
+  "version": "1.0.0",
+  "description": "App used for sending questionnaires.",
+  "main": "index.js",
+  "repository": "https://github.com/mikolajadamowicz/questionnaire.git",
+  "author": "mikolaj adamowicz <mr.ming122@gmail.com>",
+  "license": "MIT",
+  "private": null,
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "mongodb": "2.2.16",
+    "nodemon": "^1.17.3"
+  }
+}
