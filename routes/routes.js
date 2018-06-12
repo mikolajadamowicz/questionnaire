@@ -2,24 +2,33 @@
 const ObjectID = require("mongodb").ObjectID
 
 const appRouter = (app, db) => {
-    app.get("/", (req, res) => {
-        res.status(200).send("Welcome to our restful API, Aloha")
-    })
+  app.get("/", (req, res) => {
+      res.status(200).send("Welcome to our restful API, Aloha")
+  })
 
-    app.get("/getSurveys", (req, res) => {
-      //TODO: zrobic tak zeby zwracal JSONA 
-    const collection = db.collection("surveys")
-      const cursor = collection.find({}).sort({ $natural: -1 })
+  app.get("/getUsers", (req, res) => {
+    const collection = db.collection("users")
+    const cursor = collection.find({}).sort({ $natural: -1 })
     cursor.toArray((err, results) => {
       if (err) throw err
       console.log("%j", results)
       res.setHeader("Content-Type", "application/json")
       res.status(200).send(results)
     })
-    })
+  })
+
+  app.get("/getSurveys", (req, res) => {
+  const collection = db.collection("surveys")
+    const cursor = collection.find({}).sort({ $natural: -1 })
+  cursor.toArray((err, results) => {
+    if (err) throw err
+    console.log("%j", results)
+    res.setHeader("Content-Type", "application/json")
+    res.status(200).send(results)
+  })
+  })
 
   app.get("/getNewestSurvey", (req, res) => {
-    //TODO: zrobic tak zeby zwracal JSONA 
     const collection = db.collection("surveys")
     const cursor = collection
       .find()
@@ -41,7 +50,8 @@ const appRouter = (app, db) => {
         text: req.body.text, 
         title: req.body.title,
         forCount: req.body.forCount,
-        againstCount: req.body.againstCount
+        againstCount: req.body.againstCount,
+        answered: req.body.answered
       }
       console.log(req.body)
       db.collection("surveys").update(details, answer, (err, result) => {
@@ -55,10 +65,11 @@ const appRouter = (app, db) => {
 
     app.post("/addSurvey", (req, res) => {
         const survey = { 
-          text: req.body.body, 
+          text: req.body.text, 
           title: req.body.title,
           forCount: req.body.forCount,
-          againstCount: req.body.againstCount
+          againstCount: req.body.againstCount,
+          answered: req.body.answered
         }
         db.collection("surveys").insert(survey, (err, result) => {
           if (err) {
