@@ -8,12 +8,14 @@ const appRouter = (app, db) => {
 
   app.get("/getUsers", (req, res) => {
     const collection = db.collection("users")
-    const cursor = collection.find({}).sort({ $natural: -1 })
+    const cursor = collection.find()
+      .limit(1)
+      .sort({ $natural: -1 });
     cursor.toArray((err, results) => {
       if (err) throw err
-      console.log("%j", results)
+      console.log("%j", results[0])
       res.setHeader("Content-Type", "application/json")
-      res.status(200).send(results)
+      res.status(200).send(results[0])
     })
   })
 
